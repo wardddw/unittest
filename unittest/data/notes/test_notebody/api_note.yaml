@@ -1,0 +1,7 @@
+title_summary_must_key:
+  - - 'title'
+  - - 'summary'
+body_BodyType_must_key:
+  - - 'body'
+  - - 'BodyType'
+

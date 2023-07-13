@@ -1,0 +1,5 @@
+host : 'http://note-api.wps.cn'  # 属于环境变量，跟随测试环境变更，请求体和路径不随环境改变而改变，所以不属于环境变量
+wps_sid : 'V02SiJjB89IM4Bn2aFSL2iGvgsL2ne400a548bda000f683544;'  # 属于环境变量，跟随测试环境变更
+x_user_key : '258487620'  # 属于环境变量，跟随测试环境变更
+wps_sid_B: 'V02SHYYRTiSjoZFJ2Oek1PKevfJsgFo00ae7a4d4004d5c928a'
+x_user_key_B: '1297912458'
