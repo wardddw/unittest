@@ -3,6 +3,7 @@ from common.customsLog import info_log
 import time
 from common.ReadYaml import ReadYaml
 import functools
+
 host = 'http://note-api.wps.cn'
 
 
@@ -45,7 +46,7 @@ readYaml = ReadYaml
 env_config = readYaml.common_yaml()
 
 
-def note_info(count):
+def note_info(count, wps_sid, x_user_key):
     noteId_list = []
     for i in range(1, count):
         note_id = str(int((time.time()) * 1000)) + 'note_id'
@@ -58,18 +59,18 @@ def note_info(count):
             'BodyType': 0,
             'localContentVersion': 1
         }
-        Ap.post(url=host + path_note_info, sid=env_config['wps_sid'], body=body_note_info,
-                user_id=env_config['x_user_key'])
-        Ap.post(url=host + path_note_content, sid=env_config['wps_sid'], body=body_note_content,
-                user_id=env_config['x_user_key'])
+        Ap.post(url=host + path_note_info, sid=wps_sid, body=body_note_info,
+                user_id=x_user_key)
+        Ap.post(url=host + path_note_content, sid=wps_sid, body=body_note_content,
+                user_id=x_user_key)
         i = i + 1
         noteId_list.append(note_id)
-    info_log(f'循环创建{count-1}条便签，便签noteId分别为{noteId_list}')
+    info_log(f'循环创建{count - 1}条便签，便签noteId分别为{noteId_list}')
     return noteId_list
 
 
-def note_info_look():
-    userid = env_config['x_user_key']
+def note_info_look(x_user_key):
+    userid = x_user_key
     startindex = '0'
     rows = '999'
     get_note_path = f'/v3/notesvr/user/{userid}/home/startindex/{startindex}/rows/{rows}/notes'
@@ -77,7 +78,7 @@ def note_info_look():
     return res_get
 
 
-"""删除所有首页便签数据（"""
+#删除所有首页便签数据
 
 
 def note_info_delete():
@@ -110,5 +111,3 @@ def note_info_delete():
                     body=body)
 
 
-if __name__ == '__main__':
-    note_info_look()

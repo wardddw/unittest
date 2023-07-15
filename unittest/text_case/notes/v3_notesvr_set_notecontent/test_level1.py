@@ -55,13 +55,13 @@ class NoteContentLevel1(unittest.TestCase):  # 改成接口名字+重要级别
         }
         info_log('step1 新建用户1便签')
         res = apicommon.post(url=url, body=body, user_id=self.x_user_key, sid=self.wps_sid)
-        '''协议规范校验'''
+        #协议规范校验
         self.assertEqual(200, res.status_code, msg="状态码校验失败")  # 传两个参数，还会打印出来对比，期望值放前面。
-        '''接口返回校验'''
+        #接口返回校验
         response = res.json()  # json和text的区别就是一个是字符串一个是字典
         check_items = {'responseTime': 1, 'contentVersion': 1, 'contentUpdateTime': 1}  # 弄成一个字典，可以校验类型，也可以校验是否在
         checkCommon.check_response_len_type_key(check_items=check_items, response=response)
-        '''通过查询接口校验返回内容'''
+        #通过查询接口校验返回内容
         info_log('step2 获取用户1新建便签信息进行比较')
         get_path = '/v3/notesvr/get/notebody'  # 查询接口
         get_url = self.host + get_path
@@ -79,8 +79,7 @@ class NoteContentLevel1(unittest.TestCase):  # 改成接口名字+重要级别
         }  # 期望检查的内容
         if note_id in get_res.json()['noteBodies'][0]['noteId']:
             checkCommon.check_response_body(check_body, get_res.json(), 'noteBodies')  # 比较返回内容和输出内容是否一致。
-        else:
-            raise ValueError
+        self.assertIn(note_id,get_res.json()['noteBodies'][0]['noteId'])
 
     def testCase01_input(self):
         """###noteId必填项校验①规范校验②返回内容###"""
@@ -193,7 +192,7 @@ class NoteContentLevel1(unittest.TestCase):  # 改成接口名字+重要级别
         }
         res_b = apicommon.post(url=url, body=body_b, user_id=env_config['x_user_key_B'], sid=env_config['wps_sid_B'])
         self.assertEqual(200, res_b.status_code)
-        self.assertFalse(note_info_look().json()["webNotes"][0]["summary"] == 'bbbbbbb')
+        self.assertFalse(note_info_look(self.x_user_key).json()["webNotes"][0]["summary"] == 'bbbbbbb')
 
     def testCase06_handle(self):
         """###noteId_title唯一性校验①规范校验②修改内容###"""
@@ -221,6 +220,5 @@ class NoteContentLevel1(unittest.TestCase):  # 改成接口名字+重要级别
         }
         res_b = apicommon.post(url=url, body=body_b, user_id=env_config['x_user_key'], sid=env_config['wps_sid'])
         self.assertEqual(200, res_b.status_code)
-        self.assertTrue(note_info_look().json()["webNotes"][0]['title'] == '111')
-        self.assertTrue(note_info_look().json()["webNotes"][0]['summary'] == summary)
-
+        self.assertTrue(note_info_look(self.x_user_key).json()["webNotes"][0]['title'] == '111')
+        self.assertTrue(note_info_look(self.x_user_key).json()["webNotes"][0]['summary'] == summary)
