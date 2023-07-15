@@ -29,8 +29,8 @@ if __name__ == '__main__':
     strategy = "all"
     if strategy == 'smoke':
         pattern = 'test_level1.py'
-        suite = unittest.TestLoader().discover("./text_case", pattern)
+        suite = unittest.TestLoader().discover("unittest/text_case", pattern)
     else:
-        suite = unittest.TestLoader().discover("./text_case",
+        suite = unittest.TestLoader().discover("unittest/text_case",
                                                "test*.py")  # 把目录名写，自动遍历目录下所有，必须是一个包！                                          # runner = unittest.TextTestRunner()使用Beautiful库就不用这个了
     run(suite)
